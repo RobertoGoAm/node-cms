@@ -7,7 +7,8 @@
     "build": "rm -rf ./build && tsc",
     "build:watch": "rm -rf ./build && tsc --watch",
     "start": "NODE_ENV=development && node ./build/server.js",
-    "test": "jest --coverage"
+    "test": "jest --coverage --runInBand",
+    "test:watch": "jest --coverage --runInBand --watch"
   },
   "repository": {
     "type": "git",
@@ -45,5 +46,36 @@
     "jest": "^26.4.2",
     "ts-jest": "^26.4.0",
     "typescript": "^4.0.3"
+  },
+  "jest": {
+    "coverageDirectory": "./coverage/",
+    "collectCoverage": true,
+    "coverageThreshold": {
+      "global": {
+       "branches": 80,
+       "functions": 80,
+       "lines": 80,
+       "statements": 80
+     }
+    },
+    "coverageReporters": [ "json", "lcov", "text", "clover" ],
+    "transform": {
+      ".(ts|tsx|js|jsx)": "ts-jest"
+    },
+    "testEnvironment": "node",
+    "bail": true,
+    "moduleFileExtensions": [
+      "js",
+      "jsx",
+      "json",
+      "ts",
+      "tsx"
+    ],
+    "transformIgnorePatterns": [
+      "node_modules/(?!(express-validator)/)"
+    ],
+    "testMatch": [
+      "<rootDir>/src/**/*.spec.(ts|js)"
+    ]
   }
 }
