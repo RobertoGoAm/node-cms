@@ -1,10 +1,9 @@
-import express from 'express';
-import httpRouter from './router';
+import express, { Request, Response } from 'express';
 
 const app: express.Application = express();
 
-httpRouter(app);
+app.get('/', (req: Request, res: Response) =>
+  res.json({ message: 'Hello World' })
+);
 
-const myApp: express.Application = app;
-
-export default myApp;
+export default app; 
