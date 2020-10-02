@@ -1,5 +1,5 @@
 {
-  "name": "cms-backend",
+  "name": "backend",
   "version": "0.1.0",
   "description": "Proyecto para aprender todo lo posible de typescript, mean, tdd, rxjs, ngrx y jest entre otros",
   "main": "index.js",
@@ -61,7 +61,7 @@
       }
     },
     "coverageReporters": [
-      "json",
+      "json"  ,
       "lcov",
       "text",
       "clover"

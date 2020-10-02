@@ -1,6 +1,7 @@
 {
   "name": "frontend",
-  "version": "0.0.0",
+  "version": "0.1.0",
+  "description": "Proyecto para aprender todo lo posible de typescript, mean, tdd, rxjs, ngrx y jest entre otros",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -10,6 +11,32 @@
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RobertoGoAm/node-cms.git"
+  },
+  "keywords": [
+    "javascript",
+    "js",
+    "typescript",
+    "ts",
+    "mean",
+    "mongodb",
+    "angular",
+    "node",
+    "express",
+    "tdd",
+    "rxjs",
+    "ngrx",
+    "rxjs",
+    "jest"
+  ],
+  "author": "Roberto Gomez Amores",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/RobertoGoAm/node-cms/issues"
+  },
+  "homepage": "https://github.com/RobertoGoAm/node-cms#readme",
   "private": true,
   "dependencies": {
     "@angular/animations": "~8.1.1",
