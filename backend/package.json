@@ -4,9 +4,9 @@
   "description": "Proyecto para aprender todo lo posible de typescript, mean, tdd, rxjs, ngrx y jest entre otros",
   "main": "index.js",
   "scripts": {
-    "build": "rm -rf ./build && tsc",
-    "build:watch": "rm -rf ./build && tsc --watch",
-    "start": "NODE_ENV=development && node ./build/server.js",
+    "build": "rm -rf ./dist && tsc",
+    "build:watch": "rm -rf ./dist && tsc --watch",
+    "start": "NODE_ENV=development && node ./dist/backend/server.js",
     "test": "jest --coverage --runInBand",
     "test:watch": "jest --coverage --runInBand --watch"
   },
