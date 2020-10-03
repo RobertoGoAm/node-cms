@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -8,10 +8,15 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
+  // Pattern to check email (source: 'https://emailregex.com/')
+  emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
   constructor(private formBuilder: FormBuilder) {}
 
   ngOnInit() {
-    this.loginForm = this.formBuilder.group({});
+    this.loginForm = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.pattern(this.emailRegex)]],
+      password: ['', Validators.required],
+    });
   }
 }
