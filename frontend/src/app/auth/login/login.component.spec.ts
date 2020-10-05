@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpClientModule } from '@angular/common/http';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
-
 import { LoginComponent } from './login.component';
 
 describe('LoginComponent', () => {
@@ -8,14 +8,15 @@ describe('LoginComponent', () => {
   let fixture: ComponentFixture<LoginComponent>;
   let email: AbstractControl;
   let password: AbstractControl;
-  let submitButton: HTMLElement;
+  let submitButton: any;
+  let elements: HTMLElement;
 
-  beforeEach(async(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       declarations: [LoginComponent],
-      imports: [ReactiveFormsModule],
+      imports: [ReactiveFormsModule, HttpClientModule],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(LoginComponent);
@@ -26,6 +27,7 @@ describe('LoginComponent', () => {
     email = component.loginForm.controls.email;
     password = component.loginForm.controls.password;
     submitButton = fixture.nativeElement.querySelector('button[type=submit]');
+    elements = fixture.nativeElement;
   });
 
   it('should create', () => {
@@ -33,12 +35,10 @@ describe('LoginComponent', () => {
   });
 
   it('should render login form', () => {
-    const element: HTMLElement = fixture.nativeElement;
-
-    expect(element.querySelector('form')).toBeTruthy();
-    expect(element.querySelector('#email')).toBeTruthy();
-    expect(element.querySelector('#password')).toBeTruthy();
-    expect(element.querySelector('button[type=submit]')).toBeTruthy();
+    expect(elements.querySelector('form')).toBeTruthy();
+    expect(elements.querySelector('#email')).toBeTruthy();
+    expect(elements.querySelector('#password')).toBeTruthy();
+    expect(elements.querySelector('button[type=submit]')).toBeTruthy();
   });
 
   it('should validate email field as required', () => {
@@ -54,7 +54,7 @@ describe('LoginComponent', () => {
   it('should fail to validate with bad email', () => {
     email.setValue('badEmail');
 
-    const errors = email.errors;
+    const errors = email.errors || {};
 
     expect(errors.pattern).toBeTruthy();
     expect(email.valid).toBeFalsy();
@@ -70,12 +70,9 @@ describe('LoginComponent', () => {
   });
 
   it('should render an error message when the submitted email is not valid', () => {
-    const elements: HTMLElement = fixture.nativeElement;
-    const loginForm: LoginComponent = component;
-
     expect(elements.querySelector('#email-required-error')).toBeFalsy();
 
-    loginForm.logIn();
+    submitButton.click();
 
     fixture.detectChanges();
 
@@ -86,14 +83,11 @@ describe('LoginComponent', () => {
   });
 
   it('should render an error message when the submitted email doesnt match the pattern', () => {
-    const elements: HTMLElement = fixture.nativeElement;
-    const loginForm: LoginComponent = component;
-
     expect(elements.querySelector('#email-pattern-error')).toBeFalsy();
 
     email.setValue('a');
 
-    loginForm.logIn();
+    submitButton.click();
 
     fixture.detectChanges();
 
@@ -104,12 +98,9 @@ describe('LoginComponent', () => {
   });
 
   it('should render an error message when the submitted password is not valid', () => {
-    const elements: HTMLElement = fixture.nativeElement;
-    const loginForm: LoginComponent = component;
-
     expect(elements.querySelector('#password-required-error')).toBeFalsy();
 
-    loginForm.logIn();
+    submitButton.click();
 
     fixture.detectChanges();
 

@@ -1,4 +1,4 @@
-<form [formGroup]="loginForm">
+<form [formGroup]="loginForm" (ngSubmit)="logIn(loginForm.value)">
   <div class="form-group">
     <label for="email">Email</label>
 
@@ -12,20 +12,16 @@
 
     <span
       id="email-required-error"
-      *ngIf="
-        (emailField.touched || formSubmitted) && emailField.errors?.required
-      "
+      *ngIf="(emailField.touched || formSubmitted) && emailField.errors?.required"
     >
       Please enter a valid email.
     </span>
 
     <span
       id="email-pattern-error"
-      *ngIf="
-        (emailField.touched || formSubmitted) && emailField.errors?.pattern
-      "
-    >
-      Email must be a valid address.
+      *ngIf="(emailField.touched || formSubmitted) && emailField.errors?.pattern"
+      >
+        Email must be a valid address.
     </span>
   </div>
 
@@ -42,13 +38,11 @@
 
     <span
       id="password-required-error"
-      *ngIf="
-        (passwordField.touched || formSubmitted) && passwordField.errors?.required
-      "
+      *ngIf="(passwordField.touched || formSubmitted) && passwordField.errors?.required"
     >
       Please enter a valid password.
     </span>
   </div>
 
-  <button type="submit" (ngSubmit)="logIn()">Log in</button>
+  <button type="submit">Log in</button>
 </form>
