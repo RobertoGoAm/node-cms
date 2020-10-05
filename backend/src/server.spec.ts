@@ -8,7 +8,7 @@ describe('Route Testing', () => {
 
       expect(res.status).toBe(200);
       expect(res.body).toHaveProperty('message');
-      expect(res.body['message']).toEqual('Hello World');
+      expect(res.body.message).toEqual('Hello World');
     });
   });
 });

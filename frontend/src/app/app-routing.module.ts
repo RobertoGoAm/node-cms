@@ -5,7 +5,7 @@ const routes: Routes = [
   {
     path: '',
     loadChildren: () =>
-      import('./login/login.module').then((m) => m.LoginModule),
+      import('./auth/login/login.module').then((m) => m.LoginModule),
     data: { preload: true },
   },
 ];
