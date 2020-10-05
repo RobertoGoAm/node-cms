@@ -1,0 +1,54 @@
+<form [formGroup]="loginForm">
+  <div class="form-group">
+    <label for="email">Email</label>
+
+    <input
+      type="email"
+      class="form-control"
+      formControlName="email"
+      id="email"
+      placeholder="Email"
+    />
+
+    <span
+      id="email-required-error"
+      *ngIf="
+        (emailField.touched || formSubmitted) && emailField.errors?.required
+      "
+    >
+      Please enter a valid email.
+    </span>
+
+    <span
+      id="email-pattern-error"
+      *ngIf="
+        (emailField.touched || formSubmitted) && emailField.errors?.pattern
+      "
+    >
+      Email must be a valid address.
+    </span>
+  </div>
+
+  <div class="form-group">
+    <label for="password">Password</label>
+
+    <input
+      type="password"
+      class="form-control"
+      formControlName="password"
+      id="password"
+      placeholder="******"
+    />
+
+    <span
+      id="password-required-error"
+      *ngIf="
+        (passwordField.touched || formSubmitted) && passwordField.errors?.required
+      "
+    >
+      Please enter a valid password.
+    </span>
+  </div>
+
+  <button type="submit" (ngSubmit)="logIn()">Log in</button>
+</form>
