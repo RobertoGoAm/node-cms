@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit {
   logIn({ email, password }): void {
     this.formSubmitted = true;
 
-    if (email && password) {
+    if (email && password && this.loginForm.valid) {
       this.authService.login(email, password);
     }
   }
