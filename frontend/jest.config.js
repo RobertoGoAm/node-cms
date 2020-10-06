@@ -1,5 +1,5 @@
 module.exports = {
-  coverageDirectory: "coverage",
+  coverageDirectory: 'coverage',
   collectCoverage: true,
   coverageThreshold: {
     global: {
@@ -9,21 +9,22 @@ module.exports = {
       statements: 80,
     },
   },
-  coverageReporters: ["json", "lcov", "text", "clover"],
+  coverageReporters: ['json', 'lcov', 'text', 'clover'],
 
   collectCoverageFrom: [
-    "<rootDir>/src/app/**/*.ts",
-    "!<rootDir>/src/app/**/index.ts",
-    "!<rootDir>/src/app/**/*.module.ts",
+    '<rootDir>/src/app/**/*.ts',
+    '!<rootDir>/src/app/**/index.ts',
+    '!<rootDir>/src/app/**/*.module.ts',
+    '!<rootDir>/src/app/**/mock-*.ts',
   ],
 
   testPathIgnorePatterns: [
-    "<rootDir>/coverage/",
-    "<rootDir>/dist/",
-    "<rootDir>/e2e/",
-    "<rootDir>/node_modules/",
-    "<rootDir>/src/app/*.(js|scss)",
+    '<rootDir>/coverage/',
+    '<rootDir>/dist/',
+    '<rootDir>/e2e/',
+    '<rootDir>/node_modules/',
+    '<rootDir>/src/app/*.(js|scss)',
   ],
 
-  testMatch: ["<rootDir>/src/app/*.spec.ts", "<rootDir>/src/app/**/*.spec.ts"],
+  testMatch: ['<rootDir>/src/app/*.spec.ts', '<rootDir>/src/app/**/*.spec.ts'],
 };
