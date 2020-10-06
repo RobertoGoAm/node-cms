@@ -1,6 +1,8 @@
 import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
+import { AuthService } from '../shared/auth.service';
+import { MockAuthService } from '../shared/mock-auth';
 import { LoginComponent } from './login.component';
 
 describe('LoginComponent', () => {
@@ -8,13 +10,19 @@ describe('LoginComponent', () => {
   let fixture: ComponentFixture<LoginComponent>;
   let email: AbstractControl;
   let password: AbstractControl;
-  let submitButton: any;
+  let submitButton: HTMLButtonElement;
   let elements: HTMLElement;
 
   beforeEach(async () => {
     TestBed.configureTestingModule({
       declarations: [LoginComponent],
       imports: [ReactiveFormsModule, HttpClientModule],
+      providers: [
+        {
+          provide: AuthService,
+          useClass: MockAuthService,
+        },
+      ],
     }).compileComponents();
   });
 
@@ -69,44 +77,34 @@ describe('LoginComponent', () => {
     expect(email.valid).toBeTruthy();
   });
 
-  it('should render an error message when the submitted email is not valid', () => {
-    expect(elements.querySelector('#email-required-error')).toBeFalsy();
+  it('should change submit button disabled property based on the form being valid', () => {
+    expect(submitButton.disabled).toBe(true);
 
-    submitButton.click();
+    email.setValue('invalid email');
+    password.setValue('valid password');
 
     fixture.detectChanges();
 
-    expect(elements.querySelector('#email-required-error')).toBeTruthy();
-    expect(
-      elements.querySelector('#email-required-error').textContent.trim()
-    ).toBe('Please enter a valid email.');
+    expect(submitButton.disabled).toBe(true);
+
+    email.setValue('valid@email.com');
+    password.setValue('');
+
+    fixture.detectChanges();
+
+    expect(submitButton.disabled).toBe(true);
+
+    password.setValue('valid password');
+
+    fixture.detectChanges();
+
+    expect(submitButton.disabled).toBe(false);
   });
 
-  it('should render an error message when the submitted email doesnt match the pattern', () => {
-    expect(elements.querySelector('#email-pattern-error')).toBeFalsy();
+  it('should not send a login request if the submited data or form are invalid', () => {
+    const authService = TestBed.get(AuthService);
+    const loginSpy = spyOn(authService, 'login').and.callThrough();
 
-    email.setValue('a');
-
-    submitButton.click();
-
-    fixture.detectChanges();
-
-    expect(elements.querySelector('#email-pattern-error')).toBeTruthy();
-    expect(
-      elements.querySelector('#email-pattern-error').textContent.trim()
-    ).toBe('Email must be a valid address.');
-  });
-
-  it('should render an error message when the submitted password is not valid', () => {
-    expect(elements.querySelector('#password-required-error')).toBeFalsy();
-
-    submitButton.click();
-
-    fixture.detectChanges();
-
-    expect(elements.querySelector('#password-required-error')).toBeTruthy();
-    expect(
-      elements.querySelector('#password-required-error').textContent.trim()
-    ).toBe('Please enter a valid password.');
+    component.logIn({ email: '', password: ''  });
   });
 });
