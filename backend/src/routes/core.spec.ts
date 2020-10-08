@@ -1,7 +1,7 @@
 import request from 'supertest';
-import app from './app';
+import app from '../app';
 
-describe('Route Testing', () => {
+describe('Core Routes Testing', () => {
   describe('Get Routes', () => {
     it('should return "Hello World" when requesting /', async () => {
       const res = await request(app).get('/');

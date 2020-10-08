@@ -1,9 +1,14 @@
-import express, { Request, Response } from 'express';
+import express from 'express';
+import { authRoutes, coreRoutes } from './routes';
+import cors from 'cors';
 
 const app: express.Application = express();
 
-app.get('/', (req: Request, res: Response) =>
-  res.json({ message: 'Hello World' })
-);
+// Routes
+app.use('/', coreRoutes);
+app.use('/auth', authRoutes);
+
+// Middleware
+app.use(cors());
 
 export default app;
