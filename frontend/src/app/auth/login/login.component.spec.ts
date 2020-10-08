@@ -101,10 +101,21 @@ describe('LoginComponent', () => {
     expect(submitButton.disabled).toBe(false);
   });
 
-  it('should not send a login request if the submited data or form are invalid', () => {
+  it('should trigger fromEvent on submit and request login if everything checks out', () => {
     const authService = TestBed.get(AuthService);
     const loginSpy = spyOn(authService, 'login').and.callThrough();
 
-    component.logIn({ email: '', password: ''  });
+    email.setValue('valid@email.com');
+    password.setValue('valid password');
+
+    fixture.detectChanges();
+
+    submitButton.click();
+
+    fixture.detectChanges();
+
+    expect(component.formSubmitted).toBe(true);
+    expect(loginSpy).toHaveBeenCalled();
   });
 });
+
