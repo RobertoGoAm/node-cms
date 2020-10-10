@@ -23,7 +23,7 @@ describe('Auth Routes Testing', () => {
       });
 
       expect(res.status).toBe(400);
-      expect(res.body.error).toBe('You must provide email and password.');
+      expect(res.body.error).toBe('Must provide both email and password.');
     });
 
     it('should not login if password is missing or empty', async () => {
@@ -33,7 +33,7 @@ describe('Auth Routes Testing', () => {
       });
 
       expect(res.status).toBe(400);
-      expect(res.body.error).toBe('You must provide email and password.');
+      expect(res.body.error).toBe('Must provide both email and password.');
     });
   });
 });
