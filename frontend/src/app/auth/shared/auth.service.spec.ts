@@ -29,7 +29,7 @@ describe('AuthService', () => {
 
       backend.expectOne({
         method: 'POST',
-        url: API_URL + '/login'
+        url: API_URL + '/auth/login'
       }).flush('Success!');
     });
 });
