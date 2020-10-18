@@ -37,11 +37,9 @@
   },
   "homepage": "https://github.com/RobertoGoAm/node-cms#readme",
   "dependencies": {
-    "@typegoose/typegoose": "^7.4.1",
     "@types/cors": "^2.8.7",
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "migrate-mongoose": "^4.0.0",
     "mongoose": "^5.10.9"
   },
   "devDependencies": {
