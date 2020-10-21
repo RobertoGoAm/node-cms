@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { fromEvent } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { catchError, switchMap } from 'rxjs/operators';
 import { AuthService } from '../shared/auth.service';
 
 @Component({
@@ -45,6 +45,11 @@ export class LoginComponent implements OnInit {
           return this.authService.login(this.emailField.value, this.passwordField.value);
         }
       }),
+      catchError((error, caught) => {
+        // console.log(error);
+
+        return caught;
+      })
     ).subscribe(() => console.log('Success!'));
   }
 
