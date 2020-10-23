@@ -2,6 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { fromEvent } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
+import { EMAIL_REGEX } from '../../../constants/regex';
 import { AuthService } from '../shared/auth.service';
 
 @Component({
@@ -13,9 +14,6 @@ export class LoginComponent implements OnInit {
   @ViewChild('loginFormRef', {static: true}) loginFormRef: ElementRef;
   loginForm: FormGroup;
   formSubmitted: boolean;
-  // Patron para validar emails (fuente: 'https://emailregex.com/')
-  // tslint:disable-next-line:max-line-length
-  emailRegex: RegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -30,7 +28,7 @@ export class LoginComponent implements OnInit {
   // Form
   initForm(): void {
     this.loginForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.pattern(this.emailRegex)]],
+      email: ['', [Validators.required, Validators.pattern(EMAIL_REGEX)]],
       password: ['', Validators.required],
     });
   }

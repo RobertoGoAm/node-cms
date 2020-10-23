@@ -35,10 +35,11 @@ describe('registerComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should render login form', () => {
+  it('should render register form', () => {
     expect(elements.querySelector('form')).toBeTruthy();
     expect(elements.querySelector('#name')).toBeTruthy();
     expect(elements.querySelector('#email')).toBeTruthy();
+    expect(elements.querySelector('#emailConfirm')).toBeTruthy();
     expect(elements.querySelector('#password')).toBeTruthy();
     expect(elements.querySelector('#passwordConfirm')).toBeTruthy();
     expect(elements.querySelector('button[type=submit]')).toBeTruthy();

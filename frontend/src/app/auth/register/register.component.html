@@ -1,0 +1,148 @@
+<form #registerFormRef [formGroup]="registerForm">
+  <div class="form-group">
+    <label for="name">Name</label>
+
+    <input
+      type="text"
+      class="form-control"
+      formControlName="name"
+      id="name"
+      placeholder="Name"
+    />
+
+    <span
+      id="name-required-error"
+      *ngIf="(nameField.touched || formSubmitted) && nameField.errors?.required"
+    >
+      Please enter a valid name.
+    </span>
+  </div>
+
+  <div class="form-group">
+    <label for="email">Email</label>
+
+    <input
+      type="email"
+      class="form-control"
+      formControlName="email"
+      id="email"
+      placeholder="Email"
+    />
+
+    <span
+      id="email-required-error"
+      *ngIf="
+        (emailField.touched || formSubmitted) && emailField.errors?.required
+      "
+    >
+      Please enter a valid email.
+    </span>
+
+    <span
+      id="email-pattern-error"
+      *ngIf="
+        (emailField.touched || formSubmitted) && emailField.errors?.pattern
+      "
+    >
+      Email must be a valid address.
+    </span>
+  </div>
+
+  <div class="form-group">
+    <label for="emailConfirm">Email Confirm</label>
+
+    <input
+      type="email"
+      class="form-control"
+      formControlName="emailConfirm"
+      id="emailConfirm"
+      placeholder="EmailConfirm"
+    />
+
+    <span
+      id="email-required-error"
+      *ngIf="
+        (emailConfirmField.touched || formSubmitted) &&
+        emailConfirmField.errors?.required
+      "
+    >
+      Please enter a valid email.
+    </span>
+
+    <span
+      id="email-pattern-error"
+      *ngIf="
+        (emailConfirmField.touched || formSubmitted) &&
+        emailConfirmField.errors?.pattern
+      "
+    >
+      Email must be a valid address.
+    </span>
+
+    <span
+      id="email-must-match-error"
+      *ngIf="
+        (emailConfirmField.touched || formSubmitted) &&
+        emailConfirmField.errors?.emailMustMatch
+      "
+    >
+      Emails must match.
+    </span>
+  </div>
+
+  <div class="form-group">
+    <label for="password">Password</label>
+
+    <input
+      type="password"
+      class="form-control"
+      formControlName="password"
+      id="password"
+      placeholder="******"
+    />
+
+    <span
+      id="password-required-error"
+      *ngIf="
+        (passwordField.touched || formSubmitted) &&
+        passwordField.errors?.required
+      "
+    >
+      Please enter a valid password.
+    </span>
+  </div>
+
+  <div class="form-group">
+    <label for="passwordConfirm">Password Confirm</label>
+
+    <input
+      type="password"
+      class="form-control"
+      formControlName="passwordConfirm"
+      id="passwordConfirm"
+      placeholder="******"
+    />
+
+    <span
+      id="password-required-error"
+      *ngIf="
+        (passwordConfirmField.touched || formSubmitted) &&
+        passwordConfirmField.errors?.required
+      "
+    >
+      Please enter a valid password.
+    </span>
+
+    <span
+      id="password-must-match-error"
+      *ngIf="
+        (passwordConfirmField.touched || formSubmitted) &&
+        passwordConfirmField.errors?.passwordMustMatch
+      "
+    >
+      Passwords must match.
+    </span>
+  </div>
+
+  <button [disabled]="registerForm.invalid" type="submit">Register</button>
+</form>
