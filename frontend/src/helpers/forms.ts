@@ -13,8 +13,10 @@ export function MustMatch(controlName: string, matchingControlName: string) {
       error[controlName + 'MustMatch'] = true;
 
       if (control.value !== matchingControl.value) {
+          control.setErrors(error);
           matchingControl.setErrors(error);
       } else {
+          control.setErrors(null);
           matchingControl.setErrors(null);
       }
   };
