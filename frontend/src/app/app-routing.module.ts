@@ -3,10 +3,17 @@ import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
   {
-    path: '',
+    path: '', redirectTo: 'login', pathMatch: 'full'
+  },
+  {
+    path: 'login',
     loadChildren: () =>
       import('./auth/login/login.module').then((m) => m.LoginModule),
-    data: { preload: true },
+  },
+  {
+    path: 'register',
+    loadChildren: () =>
+      import('./auth/register/register.module').then((m) => m.RegisterModule),
   },
 ];
 
