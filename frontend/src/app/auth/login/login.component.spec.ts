@@ -1,8 +1,8 @@
 import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
-import { AuthService } from '../shared/auth.service';
-import { MockAuthService } from '../shared/mock-auth';
+import { AuthService } from '../service/auth.service';
+import { MockAuthService } from '../service/mock-auth';
 import { LoginComponent } from './login.component';
 
 describe('LoginComponent', () => {

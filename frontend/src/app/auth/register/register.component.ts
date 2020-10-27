@@ -4,7 +4,7 @@ import { fromEvent } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 import { EMAIL_REGEX } from '../../../constants/regex';
 import { MustMatch } from '../../../helpers/forms';
-import { AuthService } from '../shared/auth.service';
+import { AuthService } from '../service/auth.service';
 
 @Component({
   selector: 'app-register',

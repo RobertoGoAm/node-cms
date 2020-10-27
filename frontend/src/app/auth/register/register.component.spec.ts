@@ -1,8 +1,8 @@
 import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
-import { AuthService } from '../shared/auth.service';
-import { MockAuthService } from '../shared/mock-auth';
+import { AuthService } from '../service/auth.service';
+import { MockAuthService } from '../service/mock-auth';
 import { RegisterComponent } from './register.component';
 
 describe('registerComponent', () => {
@@ -139,4 +139,77 @@ describe('registerComponent', () => {
     expect(email.valid).toBeTruthy();
     expect(emailConfirm.valid).toBeTruthy();
   });
+
+  it('should fail to validate with a bad passwordConfirm', () => {
+    password.setValue('password');
+    passwordConfirm.setValue('passwordConfirm');
+
+    const errorsPassword = password.errors || {};
+    const errorsPasswordConfirm = passwordConfirm.errors || {};
+
+    expect(errorsPassword.passwordMustMatch).toBeTruthy();
+    expect(errorsPasswordConfirm.passwordMustMatch).toBeTruthy();
+    expect(password.valid).toBeFalsy();
+    expect(passwordConfirm.valid).toBeFalsy();
+  });
+
+  it('should succeed to validate with a good passwordConfirm', () => {
+    password.setValue('password');
+    passwordConfirm.setValue('password');
+
+    const errorsPassword = password.errors || {};
+    const errorsPasswordConfirm = passwordConfirm.errors || {};
+
+    expect(errorsPassword.passwordMustMatch).toBeFalsy();
+    expect(errorsPasswordConfirm.passwordMustMatch).toBeFalsy();
+    expect(password.valid).toBeTruthy();
+    expect(passwordConfirm.valid).toBeTruthy();
+  });
+
+  it('should change submit button disabled property based on the form being valid', () => {
+    expect(submitButton.disabled).toBe(true);
+
+    name.setValue('name');
+    email.setValue('invalid email');
+    emailConfirm.setValue('invalid email');
+    password.setValue('valid password');
+    passwordConfirm.setValue('valid password');
+
+    fixture.detectChanges();
+
+    expect(submitButton.disabled).toBe(true);
+
+    email.setValue('valid@email.com');
+    emailConfirm.setValue('valid@email.com');
+    password.setValue('');
+    passwordConfirm.setValue('');
+
+    fixture.detectChanges();
+
+    expect(submitButton.disabled).toBe(true);
+
+    password.setValue('valid password');
+    passwordConfirm.setValue('valid password');
+
+    fixture.detectChanges();
+
+    expect(submitButton.disabled).toBe(false);
+  });
+
+  // it('should trigger fromEvent on submit and request login if everything checks out', () => {
+  //   const authService = TestBed.get(AuthService);
+  //   const loginSpy = spyOn(authService, 'login').and.callThrough();
+
+  //   email.setValue('valid@email.com');
+  //   password.setValue('valid password');
+
+  //   fixture.detectChanges();
+
+  //   submitButton.click();
+
+  //   fixture.detectChanges();
+
+  //   expect(component.formSubmitted).toBe(true);
+  //   expect(loginSpy).toHaveBeenCalled();
+  // });
 });
