@@ -1,5 +1,6 @@
 import app from './app';
+import { SERVER_HOST, SERVER_PORT } from './config/config';
 
-app.listen(3000);
+app.listen(SERVER_PORT);
 
-console.log('Server listening at http://localhost:3000/');
+console.log(`Server listening at http://${SERVER_HOST}:${SERVER_PORT}/`);

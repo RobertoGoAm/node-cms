@@ -18,4 +18,6 @@ module.exports = {
   moduleFileExtensions: ['js', 'jsx', 'json', 'ts', 'tsx'],
   transformIgnorePatterns: ['node_modules/(?!(express-validator)/)'],
   testMatch: ['<rootDir>/src/**/*.spec.(ts|js)'],
+  testPathIgnorePatterns: ['<rootDir>/src/config/*.ts'],
+  coveragePathIgnorePatterns: ['<rootDir>/src/config'],
 };
