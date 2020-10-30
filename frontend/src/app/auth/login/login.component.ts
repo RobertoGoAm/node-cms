@@ -48,7 +48,7 @@ export class LoginComponent implements OnInit {
 
         return caught;
       })
-    ).subscribe(() => console.log('Success!'));
+    ).subscribe();
   }
 
   // Getters

@@ -115,7 +115,7 @@ describe('LoginComponent', () => {
     fixture.detectChanges();
 
     expect(component.formSubmitted).toBe(true);
-    expect(loginSpy).toHaveBeenCalled();
+    expect(loginSpy).toHaveBeenCalledTimes(1);
   });
 });
 
