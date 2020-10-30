@@ -1,3 +1,5 @@
+import { of } from 'rxjs';
+
 export class MockAuthService {
   login(email: string, password: string) {
     const correctEmail = 'test@email.com';
@@ -7,10 +9,18 @@ export class MockAuthService {
       throw new Error('Must provide both email and password');
     }
 
-    if (email !== correctEmail && password !== correctPassword) {
+    if (email !== correctEmail || password !== correctPassword) {
       throw new Error(`wrong credentials`);
     }
 
-    return 'Success!';
+    return of('Success!');
+  }
+
+  register(name: string, email: string, password: string) {
+    if (!name || !email || !password) {
+      throw new Error('Must provide name, email and password');
+    }
+
+    return of('Success!');
   }
 }

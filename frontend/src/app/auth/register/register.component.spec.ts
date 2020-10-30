@@ -196,20 +196,23 @@ describe('registerComponent', () => {
     expect(submitButton.disabled).toBe(false);
   });
 
-  // it('should trigger fromEvent on submit and request login if everything checks out', () => {
-  //   const authService = TestBed.get(AuthService);
-  //   const loginSpy = spyOn(authService, 'login').and.callThrough();
+  it('should trigger fromEvent on submit and request register if everything checks out', () => {
+    const authService = TestBed.get(AuthService);
+    const registerSpy = spyOn(authService, 'register').and.callThrough();
 
-  //   email.setValue('valid@email.com');
-  //   password.setValue('valid password');
+    name.setValue('name');
+    email.setValue('valid@email.com');
+    emailConfirm.setValue('valid@email.com');
+    password.setValue('valid password');
+    passwordConfirm.setValue('valid password');
 
-  //   fixture.detectChanges();
+    fixture.detectChanges();
 
-  //   submitButton.click();
+    submitButton.click();
 
-  //   fixture.detectChanges();
+    fixture.detectChanges();
 
-  //   expect(component.formSubmitted).toBe(true);
-  //   expect(loginSpy).toHaveBeenCalled();
-  // });
+    expect(component.formSubmitted).toBe(true);
+    expect(registerSpy).toHaveBeenCalledTimes(1);
+  });
 });

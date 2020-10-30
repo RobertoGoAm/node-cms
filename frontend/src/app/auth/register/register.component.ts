@@ -1,7 +1,12 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { fromEvent } from 'rxjs';
-import { catchError, switchMap } from 'rxjs/operators';
+import { catchError, switchMap, tap } from 'rxjs/operators';
 import { EMAIL_REGEX } from '../../../constants/regex';
 import { MustMatch } from '../../../helpers/forms';
 import { AuthService } from '../service/auth.service';
@@ -12,7 +17,7 @@ import { AuthService } from '../service/auth.service';
   styleUrls: ['register.component.scss'],
 })
 export class RegisterComponent implements OnInit {
-  @ViewChild('registerFormRef', {static: true}) registerFormRef: ElementRef;
+  @ViewChild('registerFormRef', { static: true }) registerFormRef: ElementRef;
   registerForm: FormGroup;
   formSubmitted: boolean;
 
@@ -28,36 +33,56 @@ export class RegisterComponent implements OnInit {
 
   // Form
   initForm(): void {
-    this.registerForm = this.formBuilder.group({
-      name: ['', Validators.required],
-      email: ['', [Validators.required, Validators.pattern(EMAIL_REGEX)]],
-      emailConfirm: ['', [Validators.required, Validators.pattern(EMAIL_REGEX)]],
-      password: ['', Validators.required],
-      passwordConfirm: ['', Validators.required],
-    }, {
-      validators: [
-        MustMatch('password', 'passwordConfirm'),
-        MustMatch('email', 'emailConfirm')
-      ]
-    });
+    this.registerForm = this.formBuilder.group(
+      {
+        name: ['', Validators.required],
+        email: ['', [Validators.required, Validators.pattern(EMAIL_REGEX)]],
+        emailConfirm: [
+          '',
+          [Validators.required, Validators.pattern(EMAIL_REGEX)],
+        ],
+        password: ['', Validators.required],
+        passwordConfirm: ['', Validators.required],
+      },
+      {
+        validators: [
+          MustMatch('password', 'passwordConfirm'),
+          MustMatch('email', 'emailConfirm'),
+        ],
+      }
+    );
   }
 
   subscribeToFormSubmit(): void {
     fromEvent(this.registerFormRef.nativeElement, 'submit')
-    .pipe(
-      switchMap(() => {
-        this.formSubmitted = true;
+      .pipe(
+        switchMap(() => {
+          this.formSubmitted = true;
 
-        if (this.emailField && this.passwordField && this.registerForm.valid) {
-          return this.authService.login(this.emailField.value, this.passwordField.value);
-        }
-      }),
-      catchError((error, caught) => {
-        // console.log(error);
+          const emailOK =
+            this.emailField.value &&
+            this.emailConfirmField.value &&
+            this.emailField.value === this.emailConfirmField.value;
+          const passwordOK =
+            this.passwordField.value &&
+            this.passwordConfirmField.value &&
+            this.passwordField.value === this.passwordConfirmField.value;
 
-        return caught;
-      })
-    ).subscribe(() => console.log('Success!'));
+          if (this.nameField.value && emailOK && passwordOK) {
+            return this.authService.register(
+              this.nameField.value,
+              this.emailField.value,
+              this.passwordField.value
+            );
+          }
+        }),
+        catchError((error, caught) => {
+          // console.log(error);
+
+          return caught;
+        }),
+      )
+      .subscribe();
   }
 
   // Getters
