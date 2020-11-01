@@ -1,5 +1,6 @@
 import express, { Request, Response } from 'express';
 import cors from 'cors';
+import bcrypt from 'bcrypt';
 
 import { ILoginData } from 'src/models/dto/loginData.dto';
 

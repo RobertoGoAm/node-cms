@@ -1,15 +1,22 @@
 import request from 'supertest';
 import app from '../app';
 import mongoose from 'mongoose';
-import { Db } from 'mongodb';
+import { MONGO_URL } from '../config/config';
 
 describe('Auth Routes Testing', () => {
-  let connection;
-  let db: Db;
+  let connection: mongoose.Connection;
 
-  beforeAll(() => {
-    connection = mongoose.connection;
-    db = connection.db;
+  beforeAll((done) => {
+    mongoose.connect(
+      MONGO_URL || '',
+      { useNewUrlParser: true, useFindAndModify: false },
+      () => {
+        connection = mongoose.connection;
+        connection.dropDatabase(() => {
+          done();
+        });
+      }
+    );
   });
 
   describe('Get Routes', () => {});
@@ -51,7 +58,7 @@ describe('Auth Routes Testing', () => {
 
   describe('Register', () => {
     it('should register', async () => {
-      const users = db.collection('users');
+      const users = connection.collection('users');
 
       const res = await request(app).post('/auth/register').send({
         name: 'name',
@@ -59,11 +66,12 @@ describe('Auth Routes Testing', () => {
         password: 'p4$w004rd',
       });
 
-      users.findOne({});
+      const user = await users.findOne({ email: 'test@email.com' });
 
       expect(res.status).toBe(201);
       expect(res.body).toHaveProperty('message');
       expect(res.body.message).toEqual('Hello World');
+      expect(user).toBeTruthy();
     });
   });
 });

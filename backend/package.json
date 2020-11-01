@@ -9,8 +9,8 @@
     "build": "NODE_ENV=development && rm -rf ./dist && tsc",
     "build:watch": "NODE_ENV=development && rm -rf ./dist && tsc --watch",
     "start": "NODE_ENV=development && nodemon ./dist/backend/server.js",
-    "test": "NODE_ENV=test && jest --coverage --runInBand  --forceExit",
-    "test:watch": "NODE_ENV=test && jest --coverage --runInBand --watch"
+    "test": "NODE_ENV=test && jest --coverage --maxWorkers=1",
+    "test:watch": "NODE_ENV=test && jest --coverage --watch --maxWorkers=1"
   },
   "repository": {
     "type": "git",
@@ -39,8 +39,10 @@
   },
   "homepage": "https://github.com/RobertoGoAm/node-cms#readme",
   "dependencies": {
+    "@types/bcrypt": "^3.0.0",
     "@types/cors": "^2.8.7",
     "@types/dotenv": "^8.2.0",
+    "bcrypt": "^5.0.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
