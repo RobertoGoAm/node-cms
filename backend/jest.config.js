@@ -1,4 +1,5 @@
 module.exports = {
+  preset: '@shelf/jest-mongodb',
   coverageDirectory: './coverage/',
   collectCoverage: true,
   coverageThreshold: {
@@ -20,4 +21,5 @@ module.exports = {
   testMatch: ['<rootDir>/src/**/*.spec.(ts|js)'],
   testPathIgnorePatterns: ['<rootDir>/src/config/*.ts'],
   coveragePathIgnorePatterns: ['<rootDir>/src/config'],
+  watchPathIgnorePatterns: ['globalConfig'],
 };
