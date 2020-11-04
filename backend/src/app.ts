@@ -10,7 +10,7 @@ mongoose.connect(MONGO_URL || '', {
   useUnifiedTopology: true,
 });
 
-const db = mongoose.connection;
+export const db = mongoose.connection;
 db.once('open', () => {
   console.log('Database connected:', MONGO_URL);
 });
