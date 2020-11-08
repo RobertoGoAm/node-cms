@@ -8,6 +8,8 @@ import { authRoutes, coreRoutes } from './routes';
 mongoose.connect(MONGO_URL || '', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
+  useFindAndModify: false,
+  useCreateIndex: true,
 });
 
 export const db = mongoose.connection;

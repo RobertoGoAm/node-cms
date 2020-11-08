@@ -9,7 +9,12 @@ describe('Auth Routes Testing', () => {
   beforeAll((done) => {
     mongoose.connect(
       MONGO_URL || '',
-      { useNewUrlParser: true, useFindAndModify: false },
+      {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        useFindAndModify: false,
+        useCreateIndex: true,
+      },
       () => {
         connection = mongoose.connection;
         connection.dropDatabase(() => {
@@ -70,7 +75,7 @@ describe('Auth Routes Testing', () => {
 
       expect(res.status).toBe(201);
       expect(res.body).toHaveProperty('message');
-      expect(res.body.message).toEqual('Hello World');
+      expect(res.body.message).toEqual('User registered!');
       expect(user).toBeTruthy();
     });
   });

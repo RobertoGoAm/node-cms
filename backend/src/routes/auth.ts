@@ -38,10 +38,25 @@ router.post('/register', async (req: Request, res: Response) => {
   if (user) {
     return res
       .status(400)
-      .json({ error: 'Email provided is already registered' });
+      .json({ error: 'Email provided is already registered' })
+      .end();
   }
 
-  return res.status(201).json({ message: 'Hello World' }).end();
+  bcrypt.hash(password, 10, (err, hash) => {
+    if (err) {
+      return res.status(500).end();
+    }
+
+    const newUser = new User({
+      name,
+      email,
+      password: hash,
+    });
+
+    newUser.save().then((_) => {
+      return res.status(201).json({ message: 'User registered!' }).end();
+    });
+  });
 });
 
 export const authRoutes = router;
