@@ -47,15 +47,15 @@ router.post('/register', async (req: Request, res: Response) => {
       return res.status(500).end();
     }
 
-    const newUser = new User({
+    new User({
       name,
       email,
       password: hash,
-    });
-
-    newUser.save().then((_) => {
-      return res.status(201).json({ message: 'User registered!' }).end();
-    });
+    })
+      .save()
+      .then(() => {
+        return res.status(201).json({ message: 'User registered!' }).end();
+      });
   });
 });
 
