@@ -8,7 +8,7 @@ import {
 import { fromEvent } from 'rxjs';
 import { catchError, switchMap, tap } from 'rxjs/operators';
 import { EMAIL_REGEX } from '../../../constants/regex';
-import { MustMatch } from '../../../helpers/forms';
+import { MustMatch } from '../../../helpers/form';
 import { AuthService } from '../service/auth.service';
 
 @Component({
@@ -83,6 +83,13 @@ export class RegisterComponent implements OnInit {
         }),
       )
       .subscribe();
+  }
+
+  validate(property: string, controlName: string): boolean {
+    return (
+      (this.registerForm.get(controlName).touched || this.formSubmitted) &&
+      this.registerForm.get(controlName).hasError(property)
+    );
   }
 
   // Getters

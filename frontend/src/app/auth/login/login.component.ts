@@ -1,17 +1,66 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  Validators
+} from '@angular/forms';
 import { fromEvent } from 'rxjs';
-import { catchError, switchMap } from 'rxjs/operators';
+import { catchError, switchMap, tap } from 'rxjs/operators';
 import { EMAIL_REGEX } from '../../../constants/regex';
 import { AuthService } from '../service/auth.service';
 
 @Component({
   selector: 'app-login',
-  templateUrl: './login.component.html',
+  template: `
+    <form #loginFormRef [formGroup]="loginForm">
+      <div class="form-group">
+        <label for="email">Email</label>
+
+        <input
+          type="email"
+          class="form-control"
+          formControlName="email"
+          id="email"
+          placeholder="Email"/>
+
+        <span
+          id="email-required-error"
+          *ngIf="validate('required','email')">
+          Please enter a valid email.
+        </span>
+
+        <span
+          id="email-pattern-error"
+          *ngIf="validate('pattern', 'email')">
+          Email must be a valid address.
+        </span>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+
+        <input
+          type="password"
+          class="form-control"
+          formControlName="password"
+          id="password"
+          placeholder="******"/>
+
+        <span
+          id="password-required-error"
+          *ngIf="validate('required', 'password')">
+          Please enter a valid password.
+        </span>
+      </div>
+
+      <button [disabled]="loginForm.invalid" type="submit">Log in</button>
+    </form>
+`,
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-  @ViewChild('loginFormRef', {static: true}) loginFormRef: ElementRef;
+  @ViewChild('loginFormRef', { static: true }) loginFormRef: ElementRef;
   loginForm: FormGroup;
   formSubmitted: boolean;
 
@@ -35,20 +84,29 @@ export class LoginComponent implements OnInit {
 
   subscribeToFormSubmit(): void {
     fromEvent(this.loginFormRef.nativeElement, 'submit')
-    .pipe(
-      switchMap(() => {
-        this.formSubmitted = true;
+      .pipe(
+        switchMap(() => {
+          this.formSubmitted = true;
 
-        if (this.emailField && this.passwordField && this.loginForm.valid) {
-          return this.authService.login(this.emailField.value, this.passwordField.value);
-        }
-      }),
-      catchError((error, caught) => {
-        // console.log(error);
+          return this.authService.login(
+            this.emailField.value,
+            this.passwordField.value
+          );
+        }),
+        catchError((error, caught) => {
+          // console.log(error);
 
-        return caught;
-      })
-    ).subscribe();
+          return caught;
+        })
+      )
+      .subscribe();
+  }
+
+  validate(property: string, controlName: string): boolean {
+    return (
+      (this.loginForm.get(controlName).touched || this.formSubmitted) &&
+      this.loginForm.get(controlName).hasError(property)
+    );
   }
 
   // Getters

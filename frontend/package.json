@@ -6,8 +6,8 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "test": "ng test --coverage --runInBand",
-    "test:watch": "ng test --coverage --runInBand --watch",
+    "test": "ng test --coverage --maxWorkers=1",
+    "test:watch": "ng test --coverage --maxWorkers=1 --watch",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },

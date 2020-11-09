@@ -12,8 +12,7 @@
 
     <span
       id="name-required-error"
-      *ngIf="(nameField.touched || formSubmitted) && nameField.errors?.required"
-    >
+      *ngIf="validate('required','name')">
       Please enter a valid name.
     </span>
   </div>
@@ -26,24 +25,17 @@
       class="form-control"
       formControlName="email"
       id="email"
-      placeholder="Email"
-    />
+      placeholder="Email"/>
 
     <span
       id="email-required-error"
-      *ngIf="
-        (emailField.touched || formSubmitted) && emailField.errors?.required
-      "
-    >
+      *ngIf="validate('required','email')">
       Please enter a valid email.
     </span>
 
     <span
       id="email-pattern-error"
-      *ngIf="
-        (emailField.touched || formSubmitted) && emailField.errors?.pattern
-      "
-    >
+      *ngIf="validate('patterm','email')">
       Email must be a valid address.
     </span>
   </div>
@@ -56,36 +48,23 @@
       class="form-control"
       formControlName="emailConfirm"
       id="emailConfirm"
-      placeholder="EmailConfirm"
-    />
+      placeholder="EmailConfirm"/>
 
     <span
       id="email-required-error"
-      *ngIf="
-        (emailConfirmField.touched || formSubmitted) &&
-        emailConfirmField.errors?.required
-      "
-    >
+      *ngIf="validate('required','emailConfirm')">
       Please enter a valid email.
     </span>
 
     <span
       id="email-pattern-error"
-      *ngIf="
-        (emailConfirmField.touched || formSubmitted) &&
-        emailConfirmField.errors?.pattern
-      "
-    >
+      *ngIf="validate('pattern','emailConfirm')">
       Email must be a valid address.
     </span>
 
     <span
       id="email-must-match-error"
-      *ngIf="
-        (emailConfirmField.touched || formSubmitted) &&
-        emailConfirmField.errors?.emailMustMatch
-      "
-    >
+      *ngIf="validate('emailMustMatch','emailConfirm')">
       Emails must match.
     </span>
   </div>
@@ -98,16 +77,11 @@
       class="form-control"
       formControlName="password"
       id="password"
-      placeholder="******"
-    />
+      placeholder="******"/>
 
     <span
       id="password-required-error"
-      *ngIf="
-        (passwordField.touched || formSubmitted) &&
-        passwordField.errors?.required
-      "
-    >
+      *ngIf="validate('required','password')">
       Please enter a valid password.
     </span>
   </div>
@@ -120,26 +94,17 @@
       class="form-control"
       formControlName="passwordConfirm"
       id="passwordConfirm"
-      placeholder="******"
-    />
+      placeholder="******"/>
 
     <span
       id="password-required-error"
-      *ngIf="
-        (passwordConfirmField.touched || formSubmitted) &&
-        passwordConfirmField.errors?.required
-      "
-    >
+      *ngIf="validate('required','passwordConfirm')">
       Please enter a valid password.
     </span>
 
     <span
       id="password-must-match-error"
-      *ngIf="
-        (passwordConfirmField.touched || formSubmitted) &&
-        passwordConfirmField.errors?.passwordMustMatch
-      "
-    >
+      *ngIf="validate('passwordMustMatch','emailConfirm')">
       Passwords must match.
     </span>
   </div>
