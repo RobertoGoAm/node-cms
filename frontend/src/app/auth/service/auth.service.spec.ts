@@ -7,29 +7,45 @@ import { AuthService } from './auth.service';
 const API_URL = environment.apiUrl;
 
 describe('AuthService', () => {
+  let service: AuthService;
+  let backend: HttpTestingController;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule]
+      imports: [HttpClientTestingModule],
     }).compileComponents();
+
+    service = TestBed.inject(AuthService);
+    backend = TestBed.inject(HttpTestingController);
   });
 
   it('should be created', () => {
-    const service: AuthService = TestBed.get(AuthService);
-
     expect(service).toBeTruthy();
   });
 
   it('should login', () => {
-      const service: AuthService = TestBed.get(AuthService);
-      const backend: HttpTestingController = TestBed.get(HttpTestingController);
-
-      service.login('test@email.com', 'p4$w004rd').subscribe(result => {
-        expect(result).toEqual('Success!');
-      });
-
-      backend.expectOne({
-        method: 'POST',
-        url: API_URL + '/auth/login'
-      }).flush('Success!');
+    service.login('test@email.com', 'p4$w004rd').subscribe((result) => {
+      expect(result).toEqual('Success!');
     });
+
+    backend
+      .expectOne({
+        method: 'POST',
+        url: API_URL + '/auth/login',
+      })
+      .flush('Success!');
+  });
+
+  it('should register', () => {
+    service.register('test', 'test@email.com', 'p4$w004rd').subscribe((result) => {
+      expect(result).toEqual('Success!');
+    });
+
+    backend
+      .expectOne({
+        method: 'POST',
+        url: API_URL + '/auth/register',
+      })
+      .flush('Success!');
+  });
 });

@@ -1,10 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import {
-  AbstractControl,
-  FormBuilder,
-  FormGroup,
-  Validators
-} from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { fromEvent } from 'rxjs';
 import { catchError, switchMap, tap } from 'rxjs/operators';
 import { EMAIL_REGEX } from '../../../constants/regex';
@@ -17,46 +12,26 @@ import { AuthService } from '../service/auth.service';
       <div class="form-group">
         <label for="email">Email</label>
 
-        <input
-          type="email"
-          class="form-control"
-          formControlName="email"
-          id="email"
-          placeholder="Email"/>
+        <input type="email" class="form-control" formControlName="email" id="email" placeholder="Email" />
 
-        <span
-          id="email-required-error"
-          *ngIf="validate('required','email')">
-          Please enter a valid email.
-        </span>
+        <span id="email-required-error" *ngIf="validate('required', 'email')"> Please enter a valid email. </span>
 
-        <span
-          id="email-pattern-error"
-          *ngIf="validate('pattern', 'email')">
-          Email must be a valid address.
-        </span>
+        <span id="email-pattern-error" *ngIf="validate('pattern', 'email')"> Email must be a valid address. </span>
       </div>
 
       <div class="form-group">
         <label for="password">Password</label>
 
-        <input
-          type="password"
-          class="form-control"
-          formControlName="password"
-          id="password"
-          placeholder="******"/>
+        <input type="password" class="form-control" formControlName="password" id="password" placeholder="******" />
 
-        <span
-          id="password-required-error"
-          *ngIf="validate('required', 'password')">
+        <span id="password-required-error" *ngIf="validate('required', 'password')">
           Please enter a valid password.
         </span>
       </div>
 
       <button [disabled]="loginForm.invalid" type="submit">Log in</button>
     </form>
-`,
+  `,
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
@@ -64,10 +39,7 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   formSubmitted: boolean;
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private authService: AuthService
-  ) {}
+  constructor(private formBuilder: FormBuilder, private authService: AuthService) {}
 
   ngOnInit(): void {
     this.initForm();
@@ -88,18 +60,18 @@ export class LoginComponent implements OnInit {
         switchMap(() => {
           this.formSubmitted = true;
 
-          return this.authService.login(
-            this.emailField.value,
-            this.passwordField.value
-          );
+          return this.authService.login(this.emailField.value, this.passwordField.value);
         }),
         catchError((error, caught) => {
-          // console.log(error);
-
+          this.handleServiceErrors(error);
           return caught;
         })
       )
       .subscribe();
+  }
+
+  handleServiceErrors(error: any): void {
+    // console.log('Do something');
   }
 
   validate(property: string, controlName: string): boolean {

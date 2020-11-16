@@ -1,12 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import {
-  AbstractControl,
-  FormBuilder,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { fromEvent } from 'rxjs';
-import { catchError, switchMap, tap } from 'rxjs/operators';
+import { catchError, switchMap } from 'rxjs/operators';
 import { EMAIL_REGEX } from '../../../constants/regex';
 import { MustMatch } from '../../../helpers/form';
 import { AuthService } from '../service/auth.service';
@@ -21,10 +16,7 @@ export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
   formSubmitted: boolean;
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private authService: AuthService
-  ) {}
+  constructor(private formBuilder: FormBuilder, private authService: AuthService) {}
 
   ngOnInit(): void {
     this.initForm();
@@ -37,18 +29,12 @@ export class RegisterComponent implements OnInit {
       {
         name: ['', Validators.required],
         email: ['', [Validators.required, Validators.pattern(EMAIL_REGEX)]],
-        emailConfirm: [
-          '',
-          [Validators.required, Validators.pattern(EMAIL_REGEX)],
-        ],
+        emailConfirm: ['', [Validators.required, Validators.pattern(EMAIL_REGEX)]],
         password: ['', Validators.required],
         passwordConfirm: ['', Validators.required],
       },
       {
-        validators: [
-          MustMatch('password', 'passwordConfirm'),
-          MustMatch('email', 'emailConfirm'),
-        ],
+        validators: [MustMatch('password', 'passwordConfirm'), MustMatch('email', 'emailConfirm')],
       }
     );
   }
@@ -59,30 +45,18 @@ export class RegisterComponent implements OnInit {
         switchMap(() => {
           this.formSubmitted = true;
 
-          const emailOK =
-            this.emailField.value &&
-            this.emailConfirmField.value &&
-            this.emailField.value === this.emailConfirmField.value;
-          const passwordOK =
-            this.passwordField.value &&
-            this.passwordConfirmField.value &&
-            this.passwordField.value === this.passwordConfirmField.value;
-
-          if (this.nameField.value && emailOK && passwordOK) {
-            return this.authService.register(
-              this.nameField.value,
-              this.emailField.value,
-              this.passwordField.value
-            );
-          }
+          return this.authService.register(this.nameField.value, this.emailField.value, this.passwordField.value);
         }),
         catchError((error, caught) => {
-          // console.log(error);
-
+          this.handleServiceErrors(error);
           return caught;
-        }),
+        })
       )
       .subscribe();
+  }
+
+  handleServiceErrors(error: any): void {
+    // console.log('Do something');
   }
 
   validate(property: string, controlName: string): boolean {
@@ -101,15 +75,7 @@ export class RegisterComponent implements OnInit {
     return this.registerForm.controls.email;
   }
 
-  get emailConfirmField(): AbstractControl {
-    return this.registerForm.controls.emailConfirm;
-  }
-
   get passwordField(): AbstractControl {
     return this.registerForm.controls.password;
-  }
-
-  get passwordConfirmField(): AbstractControl {
-    return this.registerForm.controls.passwordConfirm;
   }
 }

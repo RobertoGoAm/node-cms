@@ -1,6 +1,7 @@
 import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
+import { throwError } from 'rxjs';
 import { AuthService } from '../service/auth.service';
 import { MockAuthService } from '../service/mock-auth';
 import { RegisterComponent } from './register.component';
@@ -197,8 +198,8 @@ describe('registerComponent', () => {
   });
 
   it('should trigger fromEvent on submit and request register if everything checks out', () => {
-    const authService = TestBed.get(AuthService);
-    const registerSpy = spyOn(authService, 'register').and.callThrough();
+    const authService = TestBed.inject(AuthService);
+    spyOn(authService, 'register').and.callThrough();
 
     name.setValue('name');
     email.setValue('valid@email.com');
@@ -213,6 +214,28 @@ describe('registerComponent', () => {
     fixture.detectChanges();
 
     expect(component.formSubmitted).toBe(true);
-    expect(registerSpy).toHaveBeenCalledTimes(1);
+    expect(authService.register).toHaveBeenCalledTimes(1);
+  });
+
+  it('should catch errors on submit', () => {
+    const authService = TestBed.inject(AuthService);
+    spyOn(authService, 'register').and.returnValue(throwError('Error'));
+    spyOn(component, 'handleServiceErrors').and.callThrough();
+
+    name.setValue('name');
+    email.setValue('valid@email.com');
+    emailConfirm.setValue('valid@email.com');
+    password.setValue('valid password');
+    passwordConfirm.setValue('valid password');
+
+    fixture.detectChanges();
+
+    submitButton.click();
+
+    fixture.detectChanges();
+
+    expect(component.formSubmitted).toBe(true);
+    expect(authService.register).toHaveBeenCalledTimes(1);
+    expect(component.handleServiceErrors).toHaveBeenCalledTimes(1);
   });
 });

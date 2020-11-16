@@ -1,6 +1,7 @@
 import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
+import { Observable, throwError } from 'rxjs';
 import { AuthService } from '../service/auth.service';
 import { MockAuthService } from '../service/mock-auth';
 import { LoginComponent } from './login.component';
@@ -102,8 +103,8 @@ describe('LoginComponent', () => {
   });
 
   it('should trigger fromEvent on submit and request login if everything checks out', () => {
-    const authService = TestBed.get(AuthService);
-    const loginSpy = spyOn(authService, 'login').and.callThrough();
+    const authService = TestBed.inject(AuthService);
+    spyOn(authService, 'login').and.callThrough();
 
     email.setValue('valid@email.com');
     password.setValue('valid password');
@@ -115,7 +116,25 @@ describe('LoginComponent', () => {
     fixture.detectChanges();
 
     expect(component.formSubmitted).toBe(true);
-    expect(loginSpy).toHaveBeenCalledTimes(1);
+    expect(authService.login).toHaveBeenCalledTimes(1);
+  });
+
+  it('should catch errors on submit', () => {
+    const authService = TestBed.inject(AuthService);
+    spyOn(authService, 'login').and.returnValue(throwError('Error'));
+    spyOn(component, 'handleServiceErrors').and.callThrough();
+
+    email.setValue('valid@email.com');
+    password.setValue('valid password');
+
+    fixture.detectChanges();
+
+    submitButton.click();
+
+    fixture.detectChanges();
+
+    expect(component.formSubmitted).toBe(true);
+    expect(authService.login).toHaveBeenCalledTimes(1);
+    expect(component.handleServiceErrors).toHaveBeenCalledTimes(1);
   });
 });
-
