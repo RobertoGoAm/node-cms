@@ -5,8 +5,6 @@ const router = express.Router();
 router.use(express.json());
 router.use(cors());
 
-router.get('/', (req: Request, res: Response) =>
-  res.json({ message: 'Hello World' })
-);
+router.get('/', (req: Request, res: Response) => res.json({ message: 'Hello World' }));
 
 export const coreRoutes = router;
