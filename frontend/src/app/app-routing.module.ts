@@ -3,22 +3,22 @@ import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
   {
-    path: '', redirectTo: 'login', pathMatch: 'full'
+    path: '',
+    redirectTo: 'login',
+    pathMatch: 'full',
   },
   {
     path: 'login',
-    loadChildren: () =>
-      import('./auth/login/login.module').then((m) => m.LoginModule),
+    loadChildren: () => import('./auth/login/login.module').then((m) => m.LoginModule),
   },
   {
     path: 'register',
-    loadChildren: () =>
-      import('./auth/register/register.module').then((m) => m.RegisterModule),
+    loadChildren: () => import('./auth/register/register.module').then((m) => m.RegisterModule),
   },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
